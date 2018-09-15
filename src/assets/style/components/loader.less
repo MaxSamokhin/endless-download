@@ -1,0 +1,36 @@
+.loader {
+    display: flex;
+    justify-content: space-between;
+    width: 90px;
+    margin: 20px 0;
+
+    &__circle {
+        width: 20px;
+        height: 20px;
+        background-color: @loader-circle;
+
+        border-radius: 10px;
+        animation: circle 0.5s infinite ease-in-out;
+
+        &._left {
+            animation-delay: 0s;
+        }
+
+        &._middle {
+            animation-delay: 0.1s;
+        }
+
+        &._right {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes circle {
+            0%, 100% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.0);
+            }
+        }
+    }
+}
