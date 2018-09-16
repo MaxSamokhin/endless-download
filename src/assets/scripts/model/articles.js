@@ -40,4 +40,8 @@ export default class ArticlesModel {
     _setArticles(article) {
         this.articles = this.articles.concat(article);
     }
+
+    destroy() {
+        mediator.off(ARTICLES_REQUEST);
+    }
 }

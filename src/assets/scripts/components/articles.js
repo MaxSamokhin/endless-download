@@ -32,7 +32,7 @@ export default class Articles {
                             ${elem.title}                      
                         </div>
                         <div class="article__text">
-                            ${elem.text}
+                            ${elem.wide ? this._getTruncateText(elem.text, 400) :  this._getTruncateText(elem.text, 200)}
                         </div>
                     </div>
             `;
@@ -42,12 +42,19 @@ export default class Articles {
         return this.articles;
     }
 
+    _getTruncateText(text, length) {
+        return text.length > length ?
+            text.slice(0, length - 3) + '...' :
+            text;
+    }
+
     onShowArticles() {
         this._data = this.model.getArticles();
         this.render();
     }
 
     destroy() {
+        this.model.destroy();
         mediator.off(ARTICLES_SUCCESS);
     }
 }

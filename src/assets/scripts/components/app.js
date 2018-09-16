@@ -1,7 +1,10 @@
 import Articles from './articles';
 import Loader from './loader';
 import mediator from './../modules/mediator';
-import {ARTICLES_REQUEST} from './../constant/events';
+import {
+    ARTICLES_REQUEST,
+    ARTICLES_SUCCESS
+} from './../constant/events';
 
 export default class App {
     constructor(rootElement) {
@@ -11,8 +14,12 @@ export default class App {
         this.loader = new Loader();
         this.loader.hide();
 
+        this.isLoading = false;
+
         this.onDataDownload();
+
         document.addEventListener('scroll', this.onDataDownload.bind(this));
+        mediator.on(ARTICLES_SUCCESS, this.onSuccessLoadingProcess.bind(this));
     }
 
     render() {
@@ -24,13 +31,18 @@ export default class App {
         pageElements.forEach(elem => this.root.appendChild(elem));
     }
 
+    onSuccessLoadingProcess() {
+        this.isLoading = false;
+    }
+
     onDataDownload() {
         let maxHeight = this._getScrollHeight();
         let windowHeight = document.documentElement.clientHeight;
         let scrollHeight = window.pageYOffset;
 
-        if (windowHeight + scrollHeight === maxHeight) {
+        if (windowHeight + scrollHeight === maxHeight && !this.isLoading) {
             mediator.emit(ARTICLES_REQUEST);
+            this.isLoading = true;
         }
     }
 
