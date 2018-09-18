@@ -36,9 +36,9 @@ export default class App {
     }
 
     onDataDownload() {
-        let maxHeight = this._getScrollHeight();
-        let windowHeight = document.documentElement.clientHeight;
-        let scrollHeight = window.pageYOffset;
+        let maxHeight = this.getScrollHeight();
+        let windowHeight = document.documentElement.clientHeight; // видимая часть окна
+        let scrollHeight =  window.pageYOffset || document.documentElement.scrollTop; // cross-browser
 
         if (windowHeight + scrollHeight === maxHeight && !this.isLoading) {
             mediator.emit(ARTICLES_REQUEST);
@@ -46,7 +46,8 @@ export default class App {
         }
     }
 
-    _getScrollHeight() {
+    //document height (cross-browser) https://learn.javascript.ru/metrics-window
+    getScrollHeight() {
         return Math.max(
             document.body.scrollHeight, document.documentElement.scrollHeight,
             document.body.offsetHeight, document.documentElement.offsetHeight,

@@ -32,7 +32,10 @@ export default class Articles {
                             ${elem.title}                      
                         </div>
                         <div class="article__text">
-                            ${elem.wide ? this._getTruncateText(elem.text, 400) :  this._getTruncateText(elem.text, 200)}
+                            ${elem.wide ?
+                                this.getTruncateText(elem.text, 400) :
+                                this.getTruncateText(elem.text, 200)
+                            }
                         </div>
                     </div>
             `;
@@ -42,7 +45,7 @@ export default class Articles {
         return this.articles;
     }
 
-    _getTruncateText(text, length) {
+    getTruncateText(text, length) {
         return text.length > length ?
             text.slice(0, length - 3) + '...' :
             text;
