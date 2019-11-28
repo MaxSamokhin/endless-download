@@ -10,27 +10,20 @@ const paths = {
     LESS_ALL: 'src/**/*.less',
 };
 
-gulp.task('html', () => {
+gulp.task('html', done => {
     gulp.src([paths.INDEX_HTML, paths.JSON_DATA])
         .pipe(rename({
             dirname: ''
         }))
         .pipe(gulp.dest(paths.DIST));
+    done();
 });
 
-gulp.task('html:watch', () => {
-    gulp.watch(paths.INDEX_HTML, ['html']);
-});
-
-gulp.task('less', function() {
-    return gulp.src(paths.LESS)
+gulp.task('less', done => {
+    gulp.src(paths.LESS)
         .pipe(less())
         .pipe(gulp.dest(paths.DIST));
+    done();
 });
 
-gulp.task('less:watch', () => {
-    gulp.watch(paths.LESS_ALL, ['less']);
-});
-
-gulp.task('static', ['html', 'less']);
-gulp.task('static-dev', ['html:watch', 'less:watch']);
+gulp.task('static',  gulp.series ('html', 'less'));
